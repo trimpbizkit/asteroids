@@ -1,6 +1,6 @@
 [project]
 name = "asteroids"
-version = "0.1.0"
+version = "1.0.0"
 description = "Classic Asteroids game"
 readme = "README.md"
 requires-python = ">=3.12"
