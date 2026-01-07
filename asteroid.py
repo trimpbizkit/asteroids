@@ -2,7 +2,11 @@ import random
 
 import pygame
 from circleshape import CircleShape
-from constants import LINE_WIDTH, ASTEROID_MIN_RADIUS
+from constants import (
+    LINE_WIDTH,
+    ASTEROID_MIN_RADIUS,
+    ASTEROID_KINDS
+)
 from logger import log_event
 
 
@@ -33,3 +37,9 @@ class Asteroid(CircleShape):
         random_angle = random.uniform(20, 50)
         chunk_one.velocity = self.velocity.rotate(random_angle) * 1.2
         chunk_two.velocity = self.velocity.rotate(-random_angle) * 1.2
+    
+    def calculate_value(self):
+        value = ASTEROID_KINDS * 10
+        for i in range(self.radius, ASTEROID_MIN_RADIUS, -ASTEROID_MIN_RADIUS):
+            value -= 10
+        return value   

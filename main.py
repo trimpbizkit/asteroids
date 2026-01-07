@@ -1,11 +1,12 @@
 import sys
 
 import pygame
-from constants import SCREEN_WIDTH, SCREEN_HEIGHT
+from constants import SCREEN_WIDTH, SCREEN_HEIGHT, UI_HEIGHT
 from logger import log_state, log_event
 from player import Player
 from asteroid import Asteroid
 from asteroidfield import AsteroidField
+from gamebar import GameBar
 from shot import Shot
 
 def main():
@@ -24,11 +25,14 @@ def main():
     Shot.containers = (shots, updatable, drawable)
     AsteroidField.containers = (updatable)
     Player.containers = (updatable, drawable)
+    GameBar.containers = (drawable)
 
     # create objects
     asteroid_field = AsteroidField()
+    gamebar = GameBar()
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
 
+    # other game state variables
     dt = 0
 
     # infinite loop to draw the game to the screen
@@ -51,6 +55,7 @@ def main():
             for s in shots:
                 if a.collides_with(s):
                     log_event("asteroid_shot")
+                    gamebar.score += a.calculate_value()
                     a.split()
                     s.kill()
                 
