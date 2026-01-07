@@ -5,12 +5,18 @@ from player import Player
 
 def main():
     pygame.init()
-    clock = pygame.time.Clock()
-    dt = 0
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-    x = SCREEN_WIDTH / 2
-    y = SCREEN_HEIGHT / 2
-    player = Player(x, y)
+    clock = pygame.time.Clock()
+
+    updatable = pygame.sprite.Group()
+    drawable = pygame.sprite.Group()
+    
+    # This must be done before any Player objects are created
+    Player.containers = (updatable, drawable)
+    
+    player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
+
+    dt = 0
 
     # infinite loop to draw the game to the screen
     while True:
@@ -21,10 +27,16 @@ def main():
             if event.type == pygame.QUIT:
                 return
 
+        updatable.update(dt)
+
         screen.fill("black")
-        player.draw(screen)
+
+        for d in drawable:
+            d.draw(screen)
 
         pygame.display.flip()
+
+        # limit framerate to 60 FPS
         dt += clock.tick(60) / 1000
 
 
